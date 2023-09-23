@@ -32,13 +32,11 @@ const IndexTodods = () => {
     const filterCountTodos = (e) => {
         setFilterTodos(e.target.value)
     }
-    // const filterKindTodos = (e) => {
-    //     setFilterTodos(e.target.value)
-    // }
+
 
     return (
         <>
-            <h3 style={{ marginTop: '11px' }}><i className="bi bi-check2-circle"></i> <span> Todos : <span style={{ fontSize: '18px',color: 'green' }}>{todosLen} tasks</span> </span></h3>
+            <h3 style={{ marginTop: '11px' }}><i className="bi bi-check2-circle"></i> <span> Todos : <span style={{ fontSize: '18px', color: 'green' }}>{todosLen} tasks</span> </span></h3>
             <div className="row mb-3">
                 <div className="col-md-2">
                     <span style={{ color: 'blue' }} >show count todos :</span>
@@ -52,16 +50,7 @@ const IndexTodods = () => {
 
                     </select>
                 </div>
-                {/* ------ */}
-                {/* <div className="col-md-2">
-                    <span style={{ color: 'blue' }} >show kind of todos :</span>
-                    <select onChange={(e) => filterKindTodos(e)} style={{ minWidth: '100%' }}>
-                        <option value="200">All</option>
-                        <option value="3">3</option>
-                        <option value="3">3</option>
 
-                    </select>
-                </div> */}
             </div>
             {loading && <div className="spinner-border"></div>}
             {error && <p>{error}</p>}
