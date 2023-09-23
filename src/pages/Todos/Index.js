@@ -4,7 +4,8 @@ import axios from "axios"
 const IndexTodods = () => {
     const [todos, setTodos] = useState(null)
     const [todosLen, setTodosLen] = useState(null)
-    const [count, setFilterTodos] = useState(200)
+    const [count, setCountTodos] = useState(200)
+    const [kind, setKindTodos] = useState(200)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
@@ -30,7 +31,10 @@ const IndexTodods = () => {
     }, []);
 
     const filterCountTodos = (e) => {
-        setFilterTodos(e.target.value)
+        setCountTodos(e.target.value)
+    }
+    const filterKindTodos = (e) => {
+        setKindTodos(e.target.value)
     }
 
 
@@ -48,6 +52,16 @@ const IndexTodods = () => {
                         <option value="33">33</option>
                         <option value="111">111</option>
 
+                    </select>
+                </div>
+                {/* -=-=-=- */}
+                <div className="col-md-2">
+                    <span style={{ color: 'blue' }} >show kind todos :</span>
+                    <select onChange={(e) => filterKindTodos(e)} style={{ minWidth: '100%' }}>
+                        <option value="200">All</option>
+                        <option value="3">Checked Todos</option>
+                        <option value="7">Remaning Todos</option>
+                       
                     </select>
                 </div>
 
