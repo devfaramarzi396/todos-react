@@ -109,13 +109,13 @@ const IndexTodods = () => {
     const changeTodoStatus = (todoId, todoCompleted) => {
         setLoading(true)
 
-        async function todoUpdate(id,completed) {
+        async function todoUpdate(id, completed) {
             await axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`, { id: id, completed: !completed })
                 .then(res => {
                     console.log(res.data);
                     setLoading(false)
-                    setTodos(todos.map(todo=>(
-                        todo.id === id ? {...todo,completed:!completed} : todo
+                    setTodos(todos.map(todo => (
+                        todo.id === id ? { ...todo, completed: !completed } : todo
                     )))
                     Swal.fire({
                         title: "Task updated ...",
@@ -137,9 +137,39 @@ const IndexTodods = () => {
                     )
                 })
         }
-        todoUpdate(todoId,todoCompleted)
+        todoUpdate(todoId, todoCompleted)
     }
 
+    const handleDeleteTodo = (todoId) => {
+        setLoading(true)
+
+        async function deleteTodo(id) {
+            await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+                .then(res => {
+                    setLoading(false)
+                    setTodos(todos.filter(todo=>todo.id !== id))
+                    Swal.fire({
+                        title: "Task deleted ...",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        timer: 3000,
+                        toast: true,
+                        position: 'top',
+                    });
+                })
+                .catch(err => {
+                    setLoading(false)
+                    setError(err.message)
+                    Swal.fire(
+                        'Uooops!',
+                        err.message,
+                        'warning'
+                    )
+                })
+        }
+        deleteTodo(todoId)
+    }
     return (
         <>
             <h3 style={{ marginTop: '11px' }}><i className="bi bi-check2-circle"></i> <span> Todos : <span style={{ fontSize: '18px', color: 'green' }}>{todosLen} tasks</span> </span></h3>
@@ -185,7 +215,7 @@ const IndexTodods = () => {
             </div>
             <div className="row">
                 <div className="col-md-12">
-                {loading && <div className="spinner-border"></div>}
+                    {loading && <div className="spinner-border"></div>}
                 </div>
             </div>
             {error && <p>{error}</p>}
@@ -199,17 +229,17 @@ const IndexTodods = () => {
                                 <div>
                                     {todo.completed ? <del> {todo.title.substring(0, 33)}</del> : <span> {todo.title.substring(0, 33)}</span>}
                                 </div>
-                                
+
                                 <div className="todo-icons">
-                                    
+
                                     {todo.completed ?
-                                    
-                                        <i className="bi bi-check2-all" onClick={(e) => changeTodoStatus(todo.id,todo.completed)}></i> :
+
+                                        <i className="bi bi-check2-all" onClick={(e) => changeTodoStatus(todo.id, todo.completed)}></i> :
                                         <i className="bi bi-check2" onClick={(e) => changeTodoStatus(todo.id, todo.completed)} ></i>
                                     }
 
 
-                                    <i className="bi bi-trash-fill"></i>
+                                    <i className="bi bi-trash-fill" onClick={(e) => handleDeleteTodo(todo.id)}></i>
                                 </div>
                             </div>
                         </div>
