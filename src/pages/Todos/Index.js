@@ -54,6 +54,8 @@ const IndexTodods = () => {
                     setLoading(false)
                     setTodos(res.data)
                     setError(null)
+                    console.log(typeof todos)
+
                 })
                 .catch(err => {
                     setLoading(false)
@@ -70,10 +72,14 @@ const IndexTodods = () => {
         if (task) {
 
             async function sendData() {
-                await axios.post(`https://jsonplaceholder.typicode.com/todos`, { title: task, completed: false })
+                await axios.post(`https://jsonplaceholder.typicode.com/todos`, { title: task, completed: false ,userId:1})
                     .then(res => {
                         setLoading(false)
-                        console.log(res.data);
+
+                        console.log('response', res.data)
+                        const newToto=res.data
+                        setTodos([newToto ,...todos])
+                        
                         Swal.fire({
                             title: "Task added",
                             icon: "success",
@@ -97,22 +103,22 @@ const IndexTodods = () => {
             }
             sendData()
             // =--=
-            async function fetchData() {
-                await axios.get("https://jsonplaceholder.typicode.com/todos")
-                    .then(res => {
-                        setLoading(false)
-                        setTodos(res.data)
-                        setTodosLen(res.data.length)
-                        setError(null)
+            // async function fetchData() {
+            //     await axios.get("https://jsonplaceholder.typicode.com/todos")
+            //         .then(res => {
+            //             setLoading(false)
+            //             setTodos(res.data)
+            //             setTodosLen(res.data.length)
+            //             setError(null)
                      
-                    })
-                    .catch(err => {
-                        setLoading(false)
+            //         })
+            //         .catch(err => {
+            //             setLoading(false)
     
-                        setError(err.message)
-                    })
-            }
-            fetchData()
+            //             setError(err.message)
+            //         })
+            // }
+            // fetchData()
             
 
         }
@@ -171,14 +177,15 @@ const IndexTodods = () => {
             {
                 todos && todos.map(todo => (
 
-                    <div className="col-md-4 mb-3">
-                        <div className={"card " + (todo.completed && "bg-success")} key={todo.id}>
+                    <div className="col-md-4 mb-3" key={todo.id}>
+                        
+                        <div className={"card " + (todo.completed && "bg-success")} >
                             <div className="card-body d-flex justify-content-between align-items-center">
                                 <div>
                                     {todo.completed ? <del> {todo.title.substring(0, 33)}</del> : <span> {todo.title.substring(0, 33)}</span>}
                                 </div>
                                 <div className="todo-icons">
-                                    {todo.completed ? <i class="bi bi-check2-all"></i> : <i class="bi bi-check2"></i>}
+                                    {todo.completed ? <i className="bi bi-check2-all"></i> : <i className="bi bi-check2"></i>}
 
 
                                     <i className="bi bi-trash-fill"></i>
