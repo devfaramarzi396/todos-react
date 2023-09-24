@@ -5,7 +5,6 @@ const IndexTodods = () => {
     const [todos, setTodos] = useState(null)
     const [todosLen, setTodosLen] = useState(null)
     const [count, setCountTodos] = useState(200)
-    const [kind, setKindTodos] = useState(200)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
@@ -14,7 +13,7 @@ const IndexTodods = () => {
         async function fetchData() {
             await axios.get("https://jsonplaceholder.typicode.com/todos")
                 .then(res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     setLoading(false)
                     setTodos(res.data)
                     setTodosLen(res.data.length)
@@ -34,7 +33,33 @@ const IndexTodods = () => {
         setCountTodos(e.target.value)
     }
     const filterKindTodos = (e) => {
-        setKindTodos(e.target.value)
+        let url=''
+
+        if (e.target.value ==='all') {
+            url="https://jsonplaceholder.typicode.com/todos"
+        }else if(e.target.value ==='checked'){
+            url="https://jsonplaceholder.typicode.com/todos?completed=true"
+        }else{
+            url="https://jsonplaceholder.typicode.com/todos?completed=false"
+
+        }
+
+        setLoading(true)
+        async function fetchData() {
+            await axios.get(url)
+                .then(res => {
+                    setLoading(false)
+                    setTodos(res.data)
+                    setError(null)
+                })
+                .catch(err => {
+                    setLoading(false)
+
+                    setError(err.message)
+                })
+        }
+        fetchData()
+
     }
 
 
@@ -57,11 +82,11 @@ const IndexTodods = () => {
                 {/* -=-=-=- */}
                 <div className="col-md-2">
                     <span style={{ color: 'blue' }} >show kind todos :</span>
-                    <select onChange={(e) => filterKindTodos(e)} style={{ minWidth: '100%' }}>
-                        <option value="200">All</option>
-                        <option value="3">Checked Todos</option>
-                        <option value="7">Remaning Todos</option>
-                       
+                    <select onChange={(e)=>filterKindTodos(e)} style={{ minWidth: '100%' }}>
+                        <option value="all">All</option>
+                        <option value="checked">Checked Todos</option>
+                        <option value="Remaning">Remaning Todos</option>
+
                     </select>
                 </div>
 
