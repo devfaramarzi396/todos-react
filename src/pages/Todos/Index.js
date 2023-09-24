@@ -195,8 +195,11 @@ const IndexTodods = () => {
                                 <div>
                                     {todo.completed ? <del> {todo.title.substring(0, 33)}</del> : <span> {todo.title.substring(0, 33)}</span>}
                                 </div>
+                                
                                 <div className="todo-icons">
+                                    
                                     {todo.completed ?
+                                    
                                         <i className="bi bi-check2-all" onClick={(e) => changeTodoStatus(todo.id,todo.completed)}></i> :
                                         <i className="bi bi-check2" onClick={(e) => changeTodoStatus(todo.id, todo.completed)} ></i>
                                     }
