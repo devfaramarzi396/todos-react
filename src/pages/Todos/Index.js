@@ -183,7 +183,11 @@ const IndexTodods = () => {
                 </div>
 
             </div>
-            {loading && <div className="spinner-border"></div>}
+            <div className="row">
+                <div className="col-md-12">
+                {loading && <div className="spinner-border"></div>}
+                </div>
+            </div>
             {error && <p>{error}</p>}
             {
                 todos && todos.map(todo => (
