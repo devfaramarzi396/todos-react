@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react"
+
 import axios from "axios"
+import Swal from "sweetalert2"
+
 
 const IndexTodods = () => {
     const [todos, setTodos] = useState(null)
@@ -7,13 +10,13 @@ const IndexTodods = () => {
     const [count, setCountTodos] = useState(200)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const [task, setTask] = useState(null)
 
     useEffect(() => {
         setLoading(true)
         async function fetchData() {
             await axios.get("https://jsonplaceholder.typicode.com/todos")
                 .then(res => {
-                    // console.log(res.data);
                     setLoading(false)
                     setTodos(res.data)
                     setTodosLen(res.data.length)
@@ -33,14 +36,14 @@ const IndexTodods = () => {
         setCountTodos(e.target.value)
     }
     const filterKindTodos = (e) => {
-        let url=''
+        let url = ''
 
-        if (e.target.value ==='all') {
-            url="https://jsonplaceholder.typicode.com/todos"
-        }else if(e.target.value ==='checked'){
-            url="https://jsonplaceholder.typicode.com/todos?completed=true"
-        }else{
-            url="https://jsonplaceholder.typicode.com/todos?completed=false"
+        if (e.target.value === 'all') {
+            url = "https://jsonplaceholder.typicode.com/todos"
+        } else if (e.target.value === 'checked') {
+            url = "https://jsonplaceholder.typicode.com/todos?completed=true"
+        } else {
+            url = "https://jsonplaceholder.typicode.com/todos?completed=false"
 
         }
 
@@ -61,11 +64,83 @@ const IndexTodods = () => {
         fetchData()
 
     }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true)
+        if (task) {
 
+            async function sendData() {
+                await axios.post(`https://jsonplaceholder.typicode.com/todos`, { title: task, completed: false })
+                    .then(res => {
+                        setLoading(false)
+                        console.log(res.data);
+                        Swal.fire({
+                            title: "Task added",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            timer: 3000,
+                            toast: true,
+                            position: 'top',
+                        });
+
+                    })
+                    .catch(err => {
+                        setLoading(false)
+                        setError(err.message)
+                        Swal.fire(
+                            'Uooops!',
+                            err.message,
+                            'warning'
+                        )
+                    })
+            }
+            sendData()
+            // =--=
+            async function fetchData() {
+                await axios.get("https://jsonplaceholder.typicode.com/todos")
+                    .then(res => {
+                        setLoading(false)
+                        setTodos(res.data)
+                        setTodosLen(res.data.length)
+                        setError(null)
+                     
+                    })
+                    .catch(err => {
+                        setLoading(false)
+    
+                        setError(err.message)
+                    })
+            }
+            fetchData()
+            
+
+        }
+        else {
+            setLoading(false)
+
+        }
+    }
 
     return (
         <>
             <h3 style={{ marginTop: '11px' }}><i className="bi bi-check2-circle"></i> <span> Todos : <span style={{ fontSize: '18px', color: 'green' }}>{todosLen} tasks</span> </span></h3>
+
+
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <div className="row mb-3">
+                    <div className="col-md-6">
+                        <input onChange={(e) => setTask(e.target.value)} type="text" placeholder="title todo .." className="form-control" />
+                        {task ? '' : <div className="form-text text-danger">fill the title...</div>}
+                    </div>
+                    <div className="col-md-auto">
+
+                        <button className="btn btn-dark">{loading && <div className="spinner-border spinner-border-sm "></div>}Create Todo</button>
+                    </div>
+                </div>
+            </form>
+
+
             <div className="row mb-3">
                 <div className="col-md-2">
                     <span style={{ color: 'blue' }} >show count todos :</span>
@@ -82,7 +157,7 @@ const IndexTodods = () => {
                 {/* -=-=-=- */}
                 <div className="col-md-2">
                     <span style={{ color: 'blue' }} >show kind todos :</span>
-                    <select onChange={(e)=>filterKindTodos(e)} style={{ minWidth: '100%' }}>
+                    <select onChange={(e) => filterKindTodos(e)} style={{ minWidth: '100%' }}>
                         <option value="all">All</option>
                         <option value="checked">Checked Todos</option>
                         <option value="Remaning">Remaning Todos</option>
@@ -93,26 +168,27 @@ const IndexTodods = () => {
             </div>
             {loading && <div className="spinner-border"></div>}
             {error && <p>{error}</p>}
-            {todos && todos.map(todo => (
+            {
+                todos && todos.map(todo => (
 
-                <div className="col-md-4 mb-3">
-                    <div className={"card " + (todo.completed && "bg-success")} key={todo.id}>
-                        <div className="card-body d-flex justify-content-between align-items-center">
-                            <div>
-                                {todo.completed ? <del> {todo.title.substring(0, 33)}</del> : <span> {todo.title.substring(0, 33)}</span>}
-                            </div>
-                            <div className="todo-icons">
-                                {todo.completed ? <i class="bi bi-check2-all"></i> : <i class="bi bi-check2"></i>}
+                    <div className="col-md-4 mb-3">
+                        <div className={"card " + (todo.completed && "bg-success")} key={todo.id}>
+                            <div className="card-body d-flex justify-content-between align-items-center">
+                                <div>
+                                    {todo.completed ? <del> {todo.title.substring(0, 33)}</del> : <span> {todo.title.substring(0, 33)}</span>}
+                                </div>
+                                <div className="todo-icons">
+                                    {todo.completed ? <i class="bi bi-check2-all"></i> : <i class="bi bi-check2"></i>}
 
 
-                                <i className="bi bi-trash-fill"></i>
+                                    <i className="bi bi-trash-fill"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
-            )).slice(0, count)
+                )).slice(0, count)
 
             }
         </>
