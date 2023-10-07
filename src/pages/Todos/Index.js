@@ -193,27 +193,12 @@ const IndexTodods = () => {
             <div className="row mb-3">
                 <div className="col-md-2">
                     <FilterCountTodos handleCountTodos={handleCountTodos} />
-                    {/* <span style={{ color: 'blue' }} >show count todos :</span>
-                    <select onChange={(e) => filterCountTodos(e)} style={{ minWidth: '100%' }}>
-                        <option value="200">All</option>
-                        <option value="3">3</option>
-                        <option value="7">7</option>
-                        <option value="11">11</option>
-                        <option value="33">33</option>
-                        <option value="111">111</option>
 
-                    </select> */}
                 </div>
                 {/* -=-=-=- */}
                 <div className="col-md-2">
                     <FilterKindTodos handleKindTodos={handleKindTodos} />
-                    {/* <span style={{ color: 'blue' }} >show kind todos :</span>
-                    <select onChange={(e) => handleKindTodos(e)} style={{ minWidth: '100%' }}>
-                        <option value="all">All</option>
-                        <option value="checked">Checked Todos</option>
-                        <option value="Remaning">Remaning Todos</option>
 
-                    </select> */}
                 </div>
 
             </div>
