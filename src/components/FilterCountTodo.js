@@ -3,7 +3,7 @@ const FilterCountTodos = ({handleCountTodos}) => {
   
     return (
         <>
-            <span style={{ color: 'blue' }} >show count todos :</span>
+            <span style={{ color: 'blue' }} >Show Count Todos :</span>
             <select onChange={(e) => handleCountTodos(e)} style={{ minWidth: '100%' }}>
                 <option value="200">All</option>
                 <option value="3">3</option>
