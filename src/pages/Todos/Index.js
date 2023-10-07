@@ -3,6 +3,7 @@ import axios from "axios"
 import Swal from "sweetalert2"
 import FilterCountTodos from "../../components/FilterCountTodo"
 import FilterKindTodos from "../../components/FilterKindTodo"
+import CreateTodo from "../../components/CreateTodo"
 
 const IndexTodods = () => {
     const [todos, setTodos] = useState(null)
@@ -10,7 +11,7 @@ const IndexTodods = () => {
     const [count, setCountTodos] = useState(200)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    const [task, setTask] = useState(null)
+    // const [task, setTask] = useState(null)
 
     useEffect(() => {
         setLoading(true)
@@ -66,7 +67,7 @@ const IndexTodods = () => {
         fetchData()
 
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = (e,task) => {
         e.preventDefault();
         setLoading(true)
         if (task) {
@@ -175,8 +176,8 @@ const IndexTodods = () => {
     return (
         <>
             <h3 style={{ marginTop: '11px' }}><i className="bi bi-check2-circle"></i> <span> Todos : <span style={{ fontSize: '18px', color: 'green' }}>{todosLen} tasks</span> </span></h3>
-
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <CreateTodo handleSubmit={handleSubmit}  loading={loading}/>
+            {/* <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="row mb-3">
                     <div className="col-md-6">
                         <input onChange={(e) => setTask(e.target.value)} type="text" placeholder="title todo .." className="form-control" />
@@ -187,7 +188,7 @@ const IndexTodods = () => {
                         <button className="btn btn-dark">{loading && <div className="spinner-border spinner-border-sm "></div>}Create Todo</button>
                     </div>
                 </div>
-            </form>
+            </form> */}
 
 
             <div className="row mb-3">
