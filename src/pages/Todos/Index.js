@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import Swal from "sweetalert2"
 import FilterCountTodos from "../../components/FilterCountTodo"
+import FilterKindTodos from "../../components/FilterKindTodo"
 
 const IndexTodods = () => {
     const [todos, setTodos] = useState(null)
@@ -34,7 +35,7 @@ const IndexTodods = () => {
     const handleCountTodos = (e) => {
         setCountTodos(e.target.value)
     }
-    const filterKindTodos = (e) => {
+    const handleKindTodos = (e) => {
         let url = ''
 
         if (e.target.value === 'all') {
@@ -205,13 +206,14 @@ const IndexTodods = () => {
                 </div>
                 {/* -=-=-=- */}
                 <div className="col-md-2">
-                    <span style={{ color: 'blue' }} >show kind todos :</span>
-                    <select onChange={(e) => filterKindTodos(e)} style={{ minWidth: '100%' }}>
+                    <FilterKindTodos handleKindTodos={handleKindTodos} />
+                    {/* <span style={{ color: 'blue' }} >show kind todos :</span>
+                    <select onChange={(e) => handleKindTodos(e)} style={{ minWidth: '100%' }}>
                         <option value="all">All</option>
                         <option value="checked">Checked Todos</option>
                         <option value="Remaning">Remaning Todos</option>
 
-                    </select>
+                    </select> */}
                 </div>
 
             </div>
