@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import Swal from "sweetalert2"
+import FilterCountTodos from "../../components/FilterCountTodo"
 
 const IndexTodods = () => {
     const [todos, setTodos] = useState(null)
@@ -30,7 +31,7 @@ const IndexTodods = () => {
 
     }, []);
 
-    const filterCountTodos = (e) => {
+    const handleCountTodos = (e) => {
         setCountTodos(e.target.value)
     }
     const filterKindTodos = (e) => {
@@ -147,7 +148,7 @@ const IndexTodods = () => {
             await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
                 .then(res => {
                     setLoading(false)
-                    setTodos(todos.filter(todo=>todo.id !== id))
+                    setTodos(todos.filter(todo => todo.id !== id))
                     Swal.fire({
                         title: "Task deleted ...",
                         icon: "success",
@@ -190,7 +191,8 @@ const IndexTodods = () => {
 
             <div className="row mb-3">
                 <div className="col-md-2">
-                    <span style={{ color: 'blue' }} >show count todos :</span>
+                    <FilterCountTodos handleCountTodos={handleCountTodos} />
+                    {/* <span style={{ color: 'blue' }} >show count todos :</span>
                     <select onChange={(e) => filterCountTodos(e)} style={{ minWidth: '100%' }}>
                         <option value="200">All</option>
                         <option value="3">3</option>
@@ -199,7 +201,7 @@ const IndexTodods = () => {
                         <option value="33">33</option>
                         <option value="111">111</option>
 
-                    </select>
+                    </select> */}
                 </div>
                 {/* -=-=-=- */}
                 <div className="col-md-2">
