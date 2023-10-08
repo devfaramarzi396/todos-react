@@ -176,6 +176,8 @@ const IndexTodods = () => {
     return (
         <>
             <h3 style={{ marginTop: '11px' }}><i className="bi bi-check2-circle"></i> <span> Todos : <span style={{ fontSize: '18px', color: 'green' }}>{todosLen} tasks</span> </span></h3>
+           
+           
             <CreateTodo handleSubmit={handleSubmit}  loading={loading}/>
           
 
